@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ApplicantsList">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/light_green">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/BTDashboardBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent"
+                app:icon="@drawable/ic_arrow"
+                app:iconSize="30dp"
+                app:iconTint="@color/black" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp">
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="List of Applicants"
+                    android:textSize="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:paddingHorizontal="20dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Animal Shelter Volunteer"
+                    android:textSize="20dp"
+                    android:textColor="@color/purple"
+                    android:layout_marginTop="15dp"
+                    android:textStyle="bold" 
+                    android:textAlignment="center"
+                    android:id="@+id/TVActivityName"/>
+                
+            </LinearLayout>
+            
+        </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age Group"
+                    android:textColor="@color/purple"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="30dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15-65 years old"
+                    android:layout_marginLeft="30dp"
+                    android:id="@+id/TVAgeGroup" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Requirements"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/purple"
+                    android:layout_marginLeft="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sed turpis tincidunt id aliquet risus feugiat in"
+                    android:layout_marginLeft="30dp"
+                    android:id="@+id/TVRequirements" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="always"
+                    android:scrollbars="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="50dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="30dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardBackgroundColor="@color/light_purple">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Username"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:id="@+id/TVUsername1"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="90dp"
+                                    android:paddingBottom="15dp">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:drawableStart="@drawable/ic_cv"
+                                        android:paddingHorizontal="15dp"
+                                        android:textSize="12dp"
+                                        android:drawableTint="@color/white"
+                                        android:text="User's CV"
+                                        android:textColor="@color/white"
+                                        android:id="@+id/BTViewCV1" />
+
+                                    <RelativeLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="@drawable/spinner_background">
+
+                                        <Spinner
+                                            android:id="@+id/statusSpinner1"
+                                            android:layout_width="120dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="5dp"
+                                            android:popupBackground="@color/purple"
+                                            android:spinnerMode="dropdown"
+                                            style="@style/SpinnerTheme"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="30dp"
+                            app:cardCornerRadius="20dp"
+                            android:layout_marginTop="10dp"
+                            app:cardBackgroundColor="@color/light_purple">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Username"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:id="@+id/TVUsername2"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="90dp"
+                                    android:paddingBottom="15dp">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:drawableStart="@drawable/ic_cv"
+                                        android:paddingHorizontal="15dp"
+                                        android:textSize="12dp"
+                                        android:drawableTint="@color/white"
+                                        android:text="User's CV"
+                                        android:textColor="@color/white"
+                                        android:id="@+id/BTViewCV2" />
+
+                                    <RelativeLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="@drawable/spinner_background">
+
+                                        <Spinner
+                                            android:id="@+id/statusSpinner2"
+                                            android:layout_width="120dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="5dp"
+                                            android:popupBackground="@color/purple"
+                                            android:spinnerMode="dropdown"
+                                            style="@style/SpinnerTheme"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="30dp"
+                            app:cardCornerRadius="20dp"
+                            android:layout_marginTop="10dp"
+                            app:cardBackgroundColor="@color/light_purple">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Username"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:id="@+id/TVUsername3"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="90dp"
+                                    android:paddingBottom="15dp">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:drawableStart="@drawable/ic_cv"
+                                        android:paddingHorizontal="15dp"
+                                        android:textSize="12dp"
+                                        android:drawableTint="@color/white"
+                                        android:text="User's CV"
+                                        android:textColor="@color/white"
+                                        android:id="@+id/BTViewCV3" />
+
+                                    <RelativeLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="@drawable/spinner_background">
+
+                                        <Spinner
+                                            android:id="@+id/statusSpinner3"
+                                            android:layout_width="120dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="5dp"
+                                            android:popupBackground="@color/purple"
+                                            android:spinnerMode="dropdown"
+                                            style="@style/SpinnerTheme"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="30dp"
+                            app:cardCornerRadius="20dp"
+                            android:layout_marginTop="10dp"
+                            app:cardBackgroundColor="@color/light_purple">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Username"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:id="@+id/TVUsername4"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="90dp"
+                                    android:paddingBottom="15dp">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:drawableStart="@drawable/ic_cv"
+                                        android:paddingHorizontal="15dp"
+                                        android:textSize="12dp"
+                                        android:drawableTint="@color/white"
+                                        android:text="User's CV"
+                                        android:textColor="@color/white"
+                                        android:id="@+id/BTViewCV4" />
+
+                                    <RelativeLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="@drawable/spinner_background">
+
+                                        <Spinner
+                                            android:id="@+id/statusSpinner4"
+                                            android:layout_width="120dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="5dp"
+                                            android:popupBackground="@color/purple"
+                                            android:spinnerMode="dropdown"
+                                            style="@style/SpinnerTheme"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="30dp"
+                            app:cardCornerRadius="20dp"
+                            android:layout_marginTop="10dp"
+                            app:cardBackgroundColor="@color/light_purple">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Username"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:id="@+id/TVUsername5"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="90dp"
+                                    android:paddingBottom="15dp">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/round_button"
+                                        android:drawableStart="@drawable/ic_cv"
+                                        android:paddingHorizontal="15dp"
+                                        android:textSize="12dp"
+                                        android:drawableTint="@color/white"
+                                        android:text="User's CV"
+                                        android:textColor="@color/white"
+                                        android:id="@+id/BTViewCV5" />
+
+                                    <RelativeLayout
+                                        android:layout_width="120dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="@drawable/spinner_background">
+
+                                        <Spinner
+                                            android:id="@+id/statusSpinner5"
+                                            android:layout_width="120dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="5dp"
+                                            android:popupBackground="@color/purple"
+                                            android:spinnerMode="dropdown"
+                                            style="@style/SpinnerTheme"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
