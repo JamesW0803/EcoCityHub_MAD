@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class OrganizerDashboard extends AppCompatActivity {
-
+// testing use
     ArrayList <ActivityHelper> activity_list;
     MaterialButton BTDashboardBack;
     RecyclerView recyclerView;
