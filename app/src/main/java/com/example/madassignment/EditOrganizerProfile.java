@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +31,6 @@ public class EditOrganizerProfile extends AppCompatActivity {
     AutoCompleteTextView genderMenu;
     TextInputEditText usernameEditText, bioEditText, EditTextDOB, phoneEditText, emailEditText, addressEditText, passwordEditText;
     AppCompatButton BTUpdateOrgProfile;
-    DatabaseReference reference;
     MaterialButton BTEditOrgProfileBack;
     String activityKey;
 
@@ -72,21 +71,27 @@ public class EditOrganizerProfile extends AppCompatActivity {
             }
         });
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
         BTEditOrgProfileBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
-                intent.putExtra("activityKey", activityKey);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
 
-        activityKey = getIntent().getStringExtra("activityKey");
-        if (activityKey != null) {
-            reference = FirebaseDatabase.getInstance().getReference("Organizer").child(activityKey);
-        } else {
-            Toast.makeText(this, "Error getting the database access key", Toast.LENGTH_SHORT).show();
+        if (username.isEmpty()){
+            Toast.makeText(this, "No username found. Please log in again.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LogInOrganizer.class);
+            startActivity(intent);
+            finish();
+            return;
         }
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Organizer").child(username);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -106,7 +111,7 @@ public class EditOrganizerProfile extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(EditOrganizerProfile.this, "Failed to load profile details.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -123,14 +128,17 @@ public class EditOrganizerProfile extends AppCompatActivity {
                 address = addressEditText.getText().toString();
                 password = passwordEditText.getText().toString();
 
-                String organizerID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
                 SignUpOrganizerHelper updatedOrganizer = new SignUpOrganizerHelper(username, bio, gender, dateOfBirth, contactNo, email, address, password);
-                reference.setValue(updatedOrganizer);
-
-                Toast.makeText(EditOrganizerProfile.this, "You have successfully edit your profile! ", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
-                startActivity(intent);
+                reference.setValue(updatedOrganizer).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(EditOrganizerProfile.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
+                        intent.putExtra("username", username);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(EditOrganizerProfile.this, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

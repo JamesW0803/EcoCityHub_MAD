@@ -66,7 +66,7 @@ public class OrganizerProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditOrganizerProfile.class);
-                intent.putExtra("activityKey", username);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
