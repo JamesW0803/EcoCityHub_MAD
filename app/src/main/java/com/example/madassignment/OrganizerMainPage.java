@@ -33,13 +33,13 @@ public class OrganizerMainPage extends AppCompatActivity {
         usernameOrgMainPage = findViewById(R.id.usernameOrgMainPage);
         IVLogOut = findViewById(R.id.IVLogOut);
 
-        String activityKey = getIntent().getStringExtra("activityKey");
+        String key = getIntent().getStringExtra("username");
 
         MCProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrganizerMainPage.this, OrganizerProfile.class);
-                intent.putExtra("activityKey", activityKey);
+                intent.putExtra("username", key);
                 startActivity(intent);
             }
         });
@@ -48,12 +48,13 @@ public class OrganizerMainPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrganizerMainPage.this, OrganizerDashboard.class);
+                intent.putExtra("username", key);
                 startActivity(intent);
             }
         });
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Organizer").child(activityKey);
+        DatabaseReference reference = database.getReference("Organizer").child(key);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

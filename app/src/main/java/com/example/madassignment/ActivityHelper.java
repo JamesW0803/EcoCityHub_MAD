@@ -3,14 +3,17 @@ package com.example.madassignment;
 public class ActivityHelper {
     private String title;
     private String location;
-    private String date;
+    private String dateActivity;
     private String key;
-    private String startTime;
+    private String startTimeActivity;
 
-    public ActivityHelper(String title, String location, String date, String key) {
+    public ActivityHelper(){
+    }
+
+    public ActivityHelper(String title, String location, String dateActivity, String key) {
         this.title = title;
         this.location = location;
-        this.date = date;
+        this.dateActivity = dateActivity;
         this.key = key;
     }
 
@@ -22,18 +25,34 @@ public class ActivityHelper {
         return location;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateActivity() {
+        return dateActivity;
     }
 
     public String getKey(){
         return key;
     }
-    public String getStartTime(){
-        return startTime;
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setStartTime(String startTime){
-        this.startTime = startTime;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setDateActivity(String date) {
+        this.dateActivity = date;
+    }
+
+    public void setKey(String key){
+        this.key = key;
+    }
+    public String getStartTimeActivity(){
+        return startTimeActivity;
+    }
+
+    public void setStartTimeActivity(String startTime){
+        this.startTimeActivity = startTime;
     }
 }

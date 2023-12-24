@@ -7,7 +7,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,13 +55,26 @@ public class CreateActivity extends AppCompatActivity {
 
         BTSubmitActivity = findViewById(R.id.BTSubmitActivity);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        if (username.isEmpty()) {
+            Toast.makeText(this, "No username found. Please log in again.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LogInOrganizer.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+
         BTSubmitActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 database = FirebaseDatabase.getInstance();
                 reference = database.getReference("Activities");
 
-                String activityKey = reference.push().getKey();
+                DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activities").child(username);
 
                 String title, description, dateActivity, startTimeActivity, endTimeActivity, locationActivity, addressActivity, minimumAge, maximumAge, requirements, contactNo, points;
                 title = titleEditText.getText().toString();
@@ -74,16 +90,18 @@ public class CreateActivity extends AppCompatActivity {
                 contactNo = ETContactNo.getText().toString();
                 points = ETPoints.getText().toString();
 
-                reference.orderByChild("dateActivity").equalTo(dateActivity).addListenerForSingleValueEvent(new ValueEventListener() {
+                String activityKey = activitiesRef.push().getKey();
+
+                activitiesRef.orderByChild("dateActivity").equalTo(dateActivity).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot snap : snapshot.getChildren()){
-                            if (snap.child("location").getValue(String.class).equals(locationActivity)){
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            if (snap.child("location").getValue(String.class).equals(locationActivity)) {
                                 String existingStartTime = snap.child("startTimeActivity").getValue(String.class);
                                 String existingEndTime = snap.child("endTimeActivity").getValue(String.class);
                                 String existingLocation = snap.child("location").getValue(String.class);
 
-                                if(existingLocation.equals(locationActivity) &&
+                                if (existingLocation.equals(locationActivity) &&
                                         existingStartTime.equals(startTimeActivity) &&
                                         existingEndTime.equals(endTimeActivity)) {
                                     Toast.makeText(CreateActivity.this, "Exact same activity already exists!", Toast.LENGTH_SHORT).show();
@@ -91,18 +109,25 @@ public class CreateActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        ActivityHelperClass helperClass = new ActivityHelperClass(title, description, dateActivity, startTimeActivity, endTimeActivity, locationActivity, addressActivity, minimumAge, maximumAge, requirements, contactNo, points);
-                        reference.child(activityKey).setValue(helperClass);
 
-                        Toast.makeText(CreateActivity.this, "You have created the activity successfully! ", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CreateActivity.this, OrganizerDashboard.class);
-                        intent.putExtra("activityKey", activityKey);
-                        startActivity(intent);
+                        ActivityHelperClass helperClass = new ActivityHelperClass(
+                                title, description, dateActivity, startTimeActivity, endTimeActivity,
+                                locationActivity, addressActivity, minimumAge, maximumAge,
+                                requirements, contactNo, points, username
+                        );
+
+                        if (activityKey != null) {
+                            activitiesRef.child(activityKey).setValue(helperClass);
+                            Toast.makeText(CreateActivity.this, "You have created the activity successfully!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CreateActivity.this, OrganizerDashboard.class);
+                            intent.putExtra("activityKey", activityKey);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(CreateActivity.this, "Failed to create activity: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

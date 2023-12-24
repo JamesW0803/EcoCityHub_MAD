@@ -17,6 +17,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     private List<ActivityHelper> activities;
     private View.OnClickListener clickListener;
 
+
     public ActivityAdapter(ArrayList<ActivityHelper> activities, ClickListener clickListener) {
         this.activities = activities;
         this.clickListener = view -> clickListener.onClick((String) view.getTag());
@@ -36,7 +37,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         ActivityHelper model = activities.get(position);
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getLocation());
-        String dateAndTime = model.getDate() + " " + model.getStartTime();
+        String dateAndTime = model.getDateActivity() + " " + model.getStartTimeActivity();
         holder.date.setText(dateAndTime);
         holder.seeMore.setTag(model.getKey());
     }

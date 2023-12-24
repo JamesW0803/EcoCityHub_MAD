@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +43,18 @@ public class VolunteerActivityPost extends AppCompatActivity {
 
         String activityKey = getIntent().getStringExtra(OrganizerDashboard.ACTIVITY_KEY);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Activities").child(activityKey);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        if (username.isEmpty()) {
+            Toast.makeText(this, "No username found. Please log in again.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LogInOrganizer.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Activities").child(username).child(activityKey);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -64,7 +77,7 @@ public class VolunteerActivityPost extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(VolunteerActivityPost.this, "Failed to load activity details.", Toast.LENGTH_SHORT).show();
             }
         });
 

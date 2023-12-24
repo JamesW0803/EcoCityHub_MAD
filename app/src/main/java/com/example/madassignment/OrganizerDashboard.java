@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class OrganizerDashboard extends AppCompatActivity {
-// testing use
     ArrayList <ActivityHelper> activity_list;
     MaterialButton BTDashboardBack;
     RecyclerView recyclerView;
@@ -44,8 +45,6 @@ public class OrganizerDashboard extends AppCompatActivity {
             }
         });
 
-        String activityKey = getIntent().getStringExtra("activityKey");
-
         recyclerView = findViewById(R.id.activity_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -59,19 +58,28 @@ public class OrganizerDashboard extends AppCompatActivity {
         });
         recyclerView.setAdapter(activityAdapter);
 
-        DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activities");
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        if (username.isEmpty()) {
+            Toast.makeText(this, "No username found. Please log in again.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LogInOrganizer.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activities").child(username);
 
         activitiesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 activity_list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    CreateActivityHelper activity = dataSnapshot.getValue(CreateActivityHelper.class);
-                    String key = dataSnapshot.getKey();
+                    ActivityHelper activity = dataSnapshot.getValue(ActivityHelper.class);
                     if (activity != null) {
-                        ActivityHelper activityHelper = new ActivityHelper(activity.getTitle(), activity.getLocation(), activity.getDateActivity(), key);
-                        activityHelper.setStartTime(activity.getStartTimeActivity());
-                        activity_list.add(activityHelper);
+                        activity.setKey(dataSnapshot.getKey());
+                        activity_list.add(activity);
                     }
                 }
                 activityAdapter.notifyDataSetChanged();
@@ -79,7 +87,15 @@ public class OrganizerDashboard extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(OrganizerDashboard.this, "Failed to load activities.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        FOBAddActivities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrganizerDashboard.this, CreateActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -87,7 +103,7 @@ public class OrganizerDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrganizerDashboard.this, OrganizerMainPage.class);
-                intent.putExtra("activityKey", activityKey);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });

@@ -6,7 +6,9 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -75,8 +77,6 @@ public class SignUpOrganizer extends AppCompatActivity {
                 database = FirebaseDatabase.getInstance();
                 reference = database.getReference("Organizer");
 
-                String activityKey = reference.push().getKey();
-
                 String username, bio, gender, dateOfBirth, contactNo, email, address, password;
                 username = usernameEditText.getText().toString();
                 bio = bioEditText.getText().toString();
@@ -87,90 +87,84 @@ public class SignUpOrganizer extends AppCompatActivity {
                 address = addressEditText.getText().toString();
                 password = passwordEditText.getText().toString();
 
-                checkUserExists(username, email, contactNo, new FirebaseOperationCallback() {
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(bio) || TextUtils.isEmpty(gender) || TextUtils.isEmpty(dateOfBirth) || TextUtils.isEmpty(contactNo) || TextUtils.isEmpty(email) || TextUtils.isEmpty(address) || TextUtils.isEmpty(password)){
+                    Toast.makeText(SignUpOrganizer.this, "Please fill in all the credentials!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                checkUser(username, email, contactNo, new FirebaseOperationCallback() {
                     @Override
-                    public void onSuccess(boolean result) {
-                        if (!result) {
+                    public void onSuccess(boolean isUnique) {
+                        if (isUnique) {
+                            // Proceed with creating the new user
                             SignUpOrganizerHelper organizerHelper = new SignUpOrganizerHelper(username, bio, gender, dateOfBirth, contactNo, email, address, password);
-                            reference.child(activityKey).setValue(organizerHelper);
+                            reference.child(username).setValue(organizerHelper);
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("username", username); //
+                            editor.apply();
 
                             Toast.makeText(SignUpOrganizer.this, "You have successfully signed up as an Organizer!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignUpOrganizer.this, EditOrganizerProfile.class);
-                            intent.putExtra("activityKey", activityKey);
-
-                            Intent intent2 = new Intent(SignUpOrganizer.this, OrganizerProfile.class);
-                            intent2.putExtra("activityKey", activityKey);
-
-                            Intent intent3 = new Intent(SignUpOrganizer.this, OrganizerMainPage.class);
-                            intent3.putExtra("activityKey", activityKey);
-                            startActivity(intent3);
+                            Intent intent = new Intent(SignUpOrganizer.this, LogInOrganizer.class);
+                            intent.putExtra("username", username);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // Show error message that the username, email, or contact number is not unique
+                            Toast.makeText(SignUpOrganizer.this, "Username, email, or contact number already exists!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
-
     }
+    private void checkUser(String username, String email, String contactNo, FirebaseOperationCallback callback) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Organizer");
+        Query checkUsername = reference.orderByChild("username").equalTo(username);
+        Query checkEmail = reference.orderByChild("email").equalTo(email);
+        Query checkContactNo = reference.orderByChild("contactNo").equalTo(contactNo);
 
-    private void checkUserExists(String username, String email, String phone, FirebaseOperationCallback callback) {
-        Query usernameRef = reference.orderByChild("username").equalTo(username);
-
-        usernameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        checkUsername.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Toast.makeText(SignUpOrganizer.this, "Username already exists!", Toast.LENGTH_SHORT).show();
-                    callback.onSuccess(true);
+                    callback.onSuccess(false); // Username is not unique
                 } else {
-                    checkEmailExists(email, phone, callback);
+                    checkEmail.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                callback.onSuccess(false); // Email is not unique
+                            } else {
+                                checkContactNo.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+                                            callback.onSuccess(false); // Contact number is not unique
+                                        } else {
+                                            callback.onSuccess(true); // All checks passed, data is unique
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(SignUpOrganizer.this, "Failed to check contact number availability.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(SignUpOrganizer.this, "Failed to check email availability.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                callback.onSuccess(false);
-            }
-        });
-    }
-
-    private void checkEmailExists(String email, String phone, FirebaseOperationCallback callback) {
-        Query emailRef = reference.orderByChild("email").equalTo(email);
-
-        emailRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Toast.makeText(SignUpOrganizer.this, "Email already exists!", Toast.LENGTH_SHORT).show();
-                    callback.onSuccess(true);
-                } else {
-                    checkPhoneExists(phone, callback);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                callback.onSuccess(false);
-            }
-        });
-    }
-
-    private void checkPhoneExists(String phone, FirebaseOperationCallback callback) {
-        Query phoneRef = reference.orderByChild("contactNo").equalTo(phone);
-
-        phoneRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Toast.makeText(SignUpOrganizer.this, "Phone number already exists!", Toast.LENGTH_SHORT).show();
-                    callback.onSuccess(true);
-                } else {
-                    callback.onSuccess(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                callback.onSuccess(false);
+                Toast.makeText(SignUpOrganizer.this, "Failed to check username availability.", Toast.LENGTH_SHORT).show();
             }
         });
     }

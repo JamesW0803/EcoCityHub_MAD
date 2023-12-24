@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //    TextInputEditText EditTextStartTime, EditTextEndTime, EditTextDateActivity;
 //    MaterialButton BTNextCreate;
 
-    Button CreateActivityBT, OrganizerProfileBT, EditOrganizerBT, BTApplicantsList, BTOrganizerDashboard, BTSignUpOrganizer;
+    Button CreateActivityBT, OrganizerProfileBT, EditOrganizerBT, BTApplicantsList, BTOrganizerDashboard, BTSignUpOrganizer, BTLogInOrganizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         BTApplicantsList = findViewById(R.id.BTApplicantsList);
         BTOrganizerDashboard = findViewById(R.id.BTOrganizerDashboard);
         BTSignUpOrganizer = findViewById(R.id.BTSignUpOrganizer);
+        BTLogInOrganizer = findViewById(R.id.BTLogInOrganizer);
 
         BTOrganizerDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SignUpOrganizer.class);
+                startActivity(intent);
+            }
+        });
+
+        BTLogInOrganizer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LogInOrganizer.class);
                 startActivity(intent);
             }
         });

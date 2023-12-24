@@ -34,11 +34,11 @@ public class OrganizerProfile extends AppCompatActivity {
         BTEditOrgProfile = findViewById(R.id.BTEditOrgProfile);
         BTProfileBack = findViewById(R.id.BTProfileBack);
 
-        String activityKey = getIntent().getStringExtra("activityKey");
+        String username = getIntent().getStringExtra("username");
 
-        if (activityKey != null){
+        if (username != null){
             mFirebaseDatabase = FirebaseDatabase.getInstance();
-            mDatabaseReference = mFirebaseDatabase.getReference().child("Organizer").child(activityKey);
+            mDatabaseReference = mFirebaseDatabase.getReference().child("Organizer").child(username);
 
             mDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -66,7 +66,7 @@ public class OrganizerProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditOrganizerProfile.class);
-                intent.putExtra("activityKey", activityKey);
+                intent.putExtra("activityKey", username);
                 startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class OrganizerProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrganizerProfile.this, OrganizerMainPage.class);
-                intent.putExtra("activityKey", activityKey);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });

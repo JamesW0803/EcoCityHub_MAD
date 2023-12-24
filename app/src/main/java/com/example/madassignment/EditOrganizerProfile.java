@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -121,6 +122,8 @@ public class EditOrganizerProfile extends AppCompatActivity {
                 email = emailEditText.getText().toString();
                 address = addressEditText.getText().toString();
                 password = passwordEditText.getText().toString();
+
+                String organizerID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 SignUpOrganizerHelper updatedOrganizer = new SignUpOrganizerHelper(username, bio, gender, dateOfBirth, contactNo, email, address, password);
                 reference.setValue(updatedOrganizer);

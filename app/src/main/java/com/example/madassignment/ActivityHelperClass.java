@@ -1,9 +1,9 @@
 package com.example.madassignment;
 
 public class ActivityHelperClass {
-    String title, description, dateActivity, startTimeActivity, endTimeActivity, location, address, minimumAge, maximumAge, requirements, contactNo, points;
+    String title, description, dateActivity, startTimeActivity, endTimeActivity, location, address, minimumAge, maximumAge, requirements, contactNo, points, username;
 
-    public ActivityHelperClass(String title, String description, String dateActivity, String startTimeActivity, String endTimeActivity, String location, String address, String minimumAge, String maximumAge, String requirements, String contactNo, String points) {
+    public ActivityHelperClass(String title, String description, String dateActivity, String startTimeActivity, String endTimeActivity, String location, String address, String minimumAge, String maximumAge, String requirements, String contactNo, String points, String username) {
         this.title = title;
         this.description = description;
         this.dateActivity = dateActivity;
@@ -16,10 +16,19 @@ public class ActivityHelperClass {
         this.requirements = requirements;
         this.contactNo = contactNo;
         this.points = points;
+        this.username = username;
     }
 
     public ActivityHelperClass(){
 
+    }
+
+    public String getOrganizerID() {
+        return username;
+    }
+
+    public void setOrganizerID(String username) {
+        this.username = username;
     }
 
     public String getMinimumAge() {

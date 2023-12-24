@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -52,7 +53,19 @@ public class EditActivity extends AppCompatActivity {
         BTChangeActivity = findViewById(R.id.BTChangeActivity);
 
         String activityKey = getIntent().getStringExtra("activityKey");
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Activities").child(activityKey);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        if (username.isEmpty()) {
+            Toast.makeText(this, "No username found. Please log in again.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LogInOrganizer.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Activities").child(username).child(activityKey);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,7 +90,7 @@ public class EditActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(EditActivity.this, "Failed to load activity details.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -173,12 +186,21 @@ public class EditActivity extends AppCompatActivity {
                 contactNo = ETContactNo.getText().toString();
                 points = ETPoints.getText().toString();
 
-                ActivityHelperClass updatedActivity = new ActivityHelperClass(title, description, dateActivity, startTimeActivity, endTimeActivity, locationActivity, addressActivity, minimumAge, maximumAge, requirements, contactNo, points);
-                reference.setValue(updatedActivity);
-
-                Toast.makeText(EditActivity.this, "You have created the activity successfully! ", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EditActivity.this, OrganizerDashboard.class);
-                startActivity(intent);
+                ActivityHelperClass updatedActivity = new ActivityHelperClass(
+                        title, description, dateActivity, startTimeActivity, endTimeActivity,
+                        locationActivity, addressActivity, minimumAge, maximumAge,
+                        requirements, contactNo, points, username
+                );
+                reference.setValue(updatedActivity).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(EditActivity.this, "Activity updated successfully!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(EditActivity.this, OrganizerDashboard.class);
+                        intent.putExtra("username", username);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(EditActivity.this, "Failed to update activity. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
