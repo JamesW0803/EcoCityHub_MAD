@@ -32,7 +32,7 @@ public class EditOrganizerProfile extends AppCompatActivity {
     TextInputEditText usernameEditText, bioEditText, EditTextDOB, phoneEditText, emailEditText, addressEditText, passwordEditText;
     AppCompatButton BTUpdateOrgProfile;
     MaterialButton BTEditOrgProfileBack;
-    String activityKey;
+    String profileImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +72,18 @@ public class EditOrganizerProfile extends AppCompatActivity {
         });
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
+        String currentUsername = sharedPreferences.getString("username", "");
 
         BTEditOrgProfileBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
-                intent.putExtra("username", username);
+                intent.putExtra("username", currentUsername);
                 startActivity(intent);
             }
         });
 
-        if (username.isEmpty()){
+        if (currentUsername.isEmpty()){
             Toast.makeText(this, "No username found. Please log in again.", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, LogInOrganizer.class);
             startActivity(intent);
@@ -91,13 +91,13 @@ public class EditOrganizerProfile extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Organizer").child(username);
+        DatabaseReference organizerRef = FirebaseDatabase.getInstance().getReference("Organizer").child(currentUsername);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener organizerListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                SignUpOrganizerHelper organizerHelper = snapshot.getValue(SignUpOrganizerHelper.class);
-                if (organizerHelper != null){
+                EditProfileHelper organizerHelper = snapshot.getValue(EditProfileHelper.class);
+                if (organizerHelper != null) {
                     genderMenu.setText(organizerHelper.getGender());
                     usernameEditText.setText(organizerHelper.getUsername());
                     bioEditText.setText(organizerHelper.getBio());
@@ -106,20 +106,24 @@ public class EditOrganizerProfile extends AppCompatActivity {
                     emailEditText.setText(organizerHelper.getEmail());
                     addressEditText.setText(organizerHelper.getAddress());
                     passwordEditText.setText(organizerHelper.getPassword());
+                    profileImageUrl = organizerHelper.getProfileImageUrl();
                 }
+                organizerRef.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(EditOrganizerProfile.this, "Failed to load profile details.", Toast.LENGTH_SHORT).show();
             }
-        });
+        };
+
+        organizerRef.addListenerForSingleValueEvent(organizerListener);
 
         BTUpdateOrgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username, bio, gender, dateOfBirth, contactNo, email, address, password;
-                username = usernameEditText.getText().toString();
+                String newUsername, bio, gender, dateOfBirth, contactNo, email, address, password;
+                newUsername = usernameEditText.getText().toString();
                 bio = bioEditText.getText().toString();
                 gender = genderMenu.getText().toString();
                 dateOfBirth = EditTextDOB.getText().toString();
@@ -128,18 +132,96 @@ public class EditOrganizerProfile extends AppCompatActivity {
                 address = addressEditText.getText().toString();
                 password = passwordEditText.getText().toString();
 
-                SignUpOrganizerHelper updatedOrganizer = new SignUpOrganizerHelper(username, bio, gender, dateOfBirth, contactNo, email, address, password);
-                reference.setValue(updatedOrganizer).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(EditOrganizerProfile.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
-                        intent.putExtra("username", username);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(EditOrganizerProfile.this, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (!currentUsername.equals(newUsername)){
+                    organizerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            SignUpOrganizerHelper organizerHelper = snapshot.getValue(SignUpOrganizerHelper.class);
+                            if (organizerHelper != null){
+                                organizerHelper.setUsername(newUsername);
+                                organizerHelper.setBio(bio);
+                                organizerHelper.setGender(gender);
+                                organizerHelper.setDateOfBirth(dateOfBirth);
+                                organizerHelper.setContactNo(contactNo);
+                                organizerHelper.setEmail(email);
+                                organizerHelper.setAddress(address);
+                                organizerHelper.setPassword(password);
+
+
+                                DatabaseReference newUserRef = FirebaseDatabase.getInstance().getReference("Organizer").child(newUsername);
+                                newUserRef.setValue(organizerHelper).addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        // Delete the old organizer profile
+                                        organizerRef.removeValue();
+
+                                        // Update the username in SharedPreferences
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("username", newUsername);
+                                        editor.apply();
+
+                                        // Update the username in each associated activity
+                                        updateActivitiesUsername(currentUsername, newUsername, bio, gender, dateOfBirth, contactNo, email, address, password);
+
+                                        Toast.makeText(EditOrganizerProfile.this, "Username updated successfully!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
+                                        intent.putExtra("username", newUsername);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(EditOrganizerProfile.this, "Failed to update username.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(EditOrganizerProfile.this, "Failed to update username.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    updateProfileDetails(newUsername, currentUsername, bio, gender, dateOfBirth, contactNo, email, address, password, profileImageUrl);
+                }
             }
         });
+    }
+
+    private void updateProfileDetails(String newUsername, String currentUsername, String bio, String gender, String dateOfBirth, String contactNo, String email, String address, String password, String profileImageUrl) {
+        DatabaseReference oldOrganizerRef = FirebaseDatabase.getInstance().getReference("Organizer").child(currentUsername);
+        DatabaseReference newOrganizerRef = FirebaseDatabase.getInstance().getReference("Organizer").child(newUsername);
+        EditProfileHelper updatedOrganizer = new EditProfileHelper(newUsername, bio, gender, dateOfBirth, contactNo, email, address, password, profileImageUrl);
+        oldOrganizerRef.removeValue(); // Remove the old organizer details
+        newOrganizerRef.setValue(updatedOrganizer).addOnCompleteListener(task -> { // Save the new organizer details
+            if (task.isSuccessful()) {
+                Toast.makeText(EditOrganizerProfile.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditOrganizerProfile.this, OrganizerProfile.class);
+                intent.putExtra("username", newUsername);
+                startActivity(intent);
+            } else {
+                Toast.makeText(EditOrganizerProfile.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateActivitiesUsername(String currentUsername, String newUsername, String bio, String gender, String dateOfBirth, String contactNo, String email, String address, String password) {
+        DatabaseReference oldActivitiesRef = FirebaseDatabase.getInstance().getReference("Activities").child(currentUsername);
+        DatabaseReference newActivitiesRef = FirebaseDatabase.getInstance().getReference("Activities").child(newUsername);
+
+        oldActivitiesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot activitySnapshot : dataSnapshot.getChildren()) {
+                    // Copy each activity to the new username
+                    newActivitiesRef.child(activitySnapshot.getKey()).setValue(activitySnapshot.getValue());
+                }
+                // Remove the old activities
+                oldActivitiesRef.removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(EditOrganizerProfile.this, "Failed to migrate activities.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        updateProfileDetails(newUsername, currentUsername, bio, gender, dateOfBirth, contactNo, email, address, password, profileImageUrl);
     }
 }

@@ -16,22 +16,10 @@
             android:name=".LogInOrganizer"
             android:exported="false" />
         <activity
-            android:name=".Testing"
-            android:exported="false" />
-        <activity
-            android:name=".test"
-            android:exported="false" />
-        <activity
             android:name=".OrganizerMainPage"
             android:exported="false" />
         <activity
             android:name=".SignUpOrganizer"
-            android:exported="false" />
-        <activity
-            android:name=".EditActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".CreateActivity2"
             android:exported="false" />
         <activity
             android:name=".EditActivity"

@@ -53,6 +53,14 @@ public class OrganizerMainPage extends AppCompatActivity {
             }
         });
 
+        IVLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrganizerMainPage.this, LogInOrganizer.class);
+                startActivity(intent);
+            }
+        });
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Organizer").child(key);
 

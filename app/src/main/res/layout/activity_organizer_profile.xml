@@ -52,22 +52,41 @@
             android:textColor="@color/purple"
             android:textSize="25dp" />
 
-        <ImageView
-            android:id="@+id/IVProfile"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/TVOrganizer"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/image_round_outline"
-            android:clipToOutline="true"
-            android:src="@drawable/ic_launcher_background" />
+            android:id="@+id/RLEditProfile">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/IVProfile"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:shapeAppearanceOverlay="@style/imageView_circle"
+                android:src="@drawable/ic_launcher_background"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="90dp"
+                android:src="@drawable/ic_editprofile"
+                app:tint="@color/black"
+                android:id="@+id/IVEditProfile"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/TVUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/IVProfile"
+            android:layout_below="@+id/RLEditProfile"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="Username"
@@ -237,7 +256,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/MBFeedback"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/round_button"
             android:text="Log Out"
             android:textColor="@color/white" />
