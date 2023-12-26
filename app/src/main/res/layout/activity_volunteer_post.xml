@@ -90,170 +90,189 @@
             android:layout_marginTop="20dp"
             android:id="@+id/BTApplications" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/BTApplications"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="15dp"
-            android:id="@+id/RLDateActivity">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_calendar"
-                app:tint="@color/purple"
-                android:tintMode="multiply"
-                android:id="@+id/IVCalendar" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/IVCalendar"
-                android:text="May 14, 2023"
-                android:textSize="20dp"
-                android:paddingHorizontal="30dp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:id="@+id/TVDateActivity" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RLDateActivity"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/RLTimeActivity">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_time"
-                app:tint="@color/purple"
-                android:tintMode="multiply"
-                android:id="@+id/IVTime" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/IVTime"
-                android:text="9.00 am - 4.00pm"
-                android:textSize="20dp"
-                android:paddingHorizontal="30dp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:id="@+id/TVTimeActivity" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RLTimeActivity"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/RLLocationActivity">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_location"
-                app:tint="@color/purple"
-                android:tintMode="multiply"
-                android:id="@+id/IVLocation" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/IVLocation"
-                android:text="PAWS Animal Rescue Center"
-                android:textSize="20dp"
-                android:paddingLeft="30dp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:id="@+id/TVLocationActivity" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/RLLocationActivity"
-            android:id="@+id/RLLocationDetails" >
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:text="Jalan PJU 1A/20, Ara Damansara, 47301 Subang, Selangor"
-                android:layout_marginLeft="105dp"
-                android:id="@+id/TVAddressActivity"/>
-
-        </RelativeLayout>
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/RLRequirements"
-            android:layout_below="@+id/RLLocationDetails"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
+            android:scrollbars="vertical"
+            android:overScrollMode="always"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:layout_below="@+id/BTApplications">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age Group"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginLeft="30dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/BTApplications">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15-65 years old"
-                android:layout_marginLeft="30dp"
-                android:id="@+id/TVAgeGroup" />
-            
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Requirements"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:textColor="@color/purple"
-                android:layout_marginLeft="30dp" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/BTApplications"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/RLDateActivity">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sed turpis tincidunt id aliquet risus feugiat in"
-                android:layout_marginLeft="30dp"
-                android:id="@+id/TVRequirements" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/purple"
+                        android:tintMode="multiply"
+                        android:id="@+id/IVCalendar" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Contact Number"
-                android:textColor="@color/purple"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/IVCalendar"
+                        android:text="May 14, 2023"
+                        android:textSize="20dp"
+                        android:paddingHorizontal="30dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:id="@+id/TVDateActivity" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="012-3456789"
-                android:layout_marginLeft="30dp"
-                android:id="@+id/TVPhoneNumber" />
+                </RelativeLayout>
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/RLDateActivity"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/RLTimeActivity">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_time"
+                        app:tint="@color/purple"
+                        android:tintMode="multiply"
+                        android:id="@+id/IVTime" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/IVTime"
+                        android:text="9.00 am - 4.00pm"
+                        android:textSize="20dp"
+                        android:paddingHorizontal="30dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:id="@+id/TVTimeActivity" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/RLTimeActivity"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/RLLocationActivity">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_location"
+                        app:tint="@color/purple"
+                        android:tintMode="multiply"
+                        android:id="@+id/IVLocation" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/IVLocation"
+                        android:text="PAWS Animal Rescue Center"
+                        android:textSize="20dp"
+                        android:paddingLeft="30dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:id="@+id/TVLocationActivity" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/RLLocationActivity"
+                    android:id="@+id/RLLocationDetails" >
+
+                    <TextView
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="Jalan PJU 1A/20, Ara Damansara, 47301 Subang, Selangor"
+                        android:layout_marginLeft="105dp"
+                        android:id="@+id/TVAddressActivity"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/RLRequirements"
+                    android:layout_below="@+id/RLLocationDetails"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Age Group"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="30dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15-65 years old"
+                        android:layout_marginLeft="30dp"
+                        android:id="@+id/TVAgeGroup" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Requirements"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/purple"
+                        android:layout_marginLeft="30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sed turpis tincidunt id aliquet risus feugiat in"
+                        android:layout_marginLeft="30dp"
+                        android:id="@+id/TVRequirements" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contact Number"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="012-3456789"
+                        android:layout_marginLeft="30dp"
+                        android:id="@+id/TVPhoneNumber" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </RelativeLayout>
 

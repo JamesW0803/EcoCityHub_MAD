@@ -65,23 +65,32 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/RLDashboard">
+        android:layout_below="@+id/RLDashboard"
+        android:layout_marginBottom="50dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RLDashboard"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/activity_recycler_view">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RLDashboard"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/activity_recycler_view">
+            </androidx.recyclerview.widget.RecyclerView>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
