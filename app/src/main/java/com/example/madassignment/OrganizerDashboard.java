@@ -25,7 +25,6 @@ public class OrganizerDashboard extends AppCompatActivity {
     ArrayList <ActivityHelper> activity_list;
     MaterialButton BTDashboardBack;
     RecyclerView recyclerView;
-    public final static String ACTIVITY_KEY = "ACTIVITY KEY";
     ActivityAdapter activityAdapter;
     FloatingActionButton FOBAddActivities;
 
@@ -53,7 +52,7 @@ public class OrganizerDashboard extends AppCompatActivity {
 
         activityAdapter = new ActivityAdapter(activity_list, key -> {
             Intent intent = new Intent(OrganizerDashboard.this, VolunteerActivityPost.class);
-            intent.putExtra(ACTIVITY_KEY, key);
+            intent.putExtra("activityKey", key);
             startActivity(intent);
         });
         recyclerView.setAdapter(activityAdapter);
@@ -71,25 +70,27 @@ public class OrganizerDashboard extends AppCompatActivity {
 
         DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activities").child(username);
 
-        activitiesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                activity_list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ActivityHelper activity = dataSnapshot.getValue(ActivityHelper.class);
-                    if (activity != null) {
-                        activity.setKey(dataSnapshot.getKey());
-                        activity_list.add(activity);
+        if (activitiesRef != null){
+            activitiesRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    activity_list.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        ActivityHelper activity = dataSnapshot.getValue(ActivityHelper.class);
+                        if (activity != null) {
+                            activity.setKey(dataSnapshot.getKey());
+                            activity_list.add(activity);
+                        }
                     }
+                    activityAdapter.notifyDataSetChanged();
                 }
-                activityAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(OrganizerDashboard.this, "Failed to load activities.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(OrganizerDashboard.this, "Failed to load activities.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         FOBAddActivities.setOnClickListener(new View.OnClickListener() {
             @Override

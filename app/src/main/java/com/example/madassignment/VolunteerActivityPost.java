@@ -22,6 +22,7 @@ public class VolunteerActivityPost extends AppCompatActivity {
     MaterialButton BTActivityBack, BTEditActivity;
     TextView TVActivityName, TVActivityDesc, TVPoints, TVDateActivity, TVTimeActivity, TVLocationActivity, TVAddressActivity, TVAgeGroup, TVRequirements, TVPhoneNumber;
     AppCompatButton BTApplications;
+    String activityKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class VolunteerActivityPost extends AppCompatActivity {
         TVPhoneNumber = findViewById(R.id.TVPhoneNumber);
         BTApplications = findViewById(R.id.BTApplications);
 
-        String activityKey = getIntent().getStringExtra(OrganizerDashboard.ACTIVITY_KEY);
+        activityKey = getIntent().getStringExtra("activityKey");
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
@@ -54,32 +55,37 @@ public class VolunteerActivityPost extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Activities").child(username).child(activityKey);
+        if (username != null && activityKey != null){
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Activities").child(username).child(activityKey);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ActivityHelperClass activityHelper = snapshot.getValue(ActivityHelperClass.class);
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    ActivityHelperClass activityHelper = snapshot.getValue(ActivityHelperClass.class);
 
-                if (activityHelper != null){
-                    TVActivityName.setText(activityHelper.getTitle());
-                    TVActivityDesc.setText(activityHelper.getDescription());
-                    TVPoints.setText(activityHelper.getPoints() + " Points");
-                    TVDateActivity.setText(activityHelper.getDateActivity());
-                    TVTimeActivity.setText(activityHelper.getStartTimeActivity() + " - " + activityHelper.getEndTimeActivity());
-                    TVLocationActivity.setText(activityHelper.getLocation());
-                    TVAddressActivity.setText(activityHelper.getAddress());
-                    TVAgeGroup.setText(activityHelper.getMinimumAge() + " - " + activityHelper.getMaximumAge() + " years old");
-                    TVRequirements.setText(activityHelper.getRequirements());
-                    TVPhoneNumber.setText(activityHelper.getContactNo());
+                    if (activityHelper != null){
+                        TVActivityName.setText(activityHelper.getTitle());
+                        TVActivityDesc.setText(activityHelper.getDescription());
+                        TVPoints.setText(activityHelper.getPoints() + " Points");
+                        TVDateActivity.setText(activityHelper.getDateActivity());
+                        TVTimeActivity.setText(activityHelper.getStartTimeActivity() + " - " + activityHelper.getEndTimeActivity());
+                        TVLocationActivity.setText(activityHelper.getLocation());
+                        TVAddressActivity.setText(activityHelper.getAddress());
+                        TVAgeGroup.setText(activityHelper.getMinimumAge() + " - " + activityHelper.getMaximumAge() + " years old");
+                        TVRequirements.setText(activityHelper.getRequirements());
+                        TVPhoneNumber.setText(activityHelper.getContactNo());
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(VolunteerActivityPost.this, "Failed to load activity details.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(VolunteerActivityPost.this, "Failed to load activity details.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            Toast.makeText(this, "The activity key or username is null.", Toast.LENGTH_SHORT).show();
+        }
+
 
         BTActivityBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +108,9 @@ public class VolunteerActivityPost extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VolunteerActivityPost.this, ApplicantsList.class);
+                intent.putExtra("activityKey", activityKey);
                 startActivity(intent);
+                finish();
             }
         });
     }

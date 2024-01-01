@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +34,7 @@ public class SignUpOrganizer extends AppCompatActivity {
     AppCompatButton OrgSignUpBT;
     FirebaseDatabase database;
     DatabaseReference reference;
+    MaterialButton BTOrgSignUpBack;
 
 
     @Override
@@ -48,6 +50,7 @@ public class SignUpOrganizer extends AppCompatActivity {
         addressEditText = findViewById(R.id.addressEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         OrgSignUpBT = findViewById(R.id.OrgSignUpBT);
+        BTOrgSignUpBack = findViewById(R.id.BTOrgSignUpBack);
 
         List<String> gender = Arrays.asList("Male", "Female", "Prefer not to say");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, gender);
@@ -68,6 +71,15 @@ public class SignUpOrganizer extends AppCompatActivity {
                         EditTextDOB.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }}, year, month, day);
                     datePickerDialog.show();
+            }
+        });
+
+        BTOrgSignUpBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUpOrganizer.this, LogInOrganizer.class);
+                startActivity(intent);
+                finish();
             }
         });
 

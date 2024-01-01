@@ -2,15 +2,16 @@ package com.example.madassignment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,8 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 public class LogInOrganizer extends AppCompatActivity {
 
     TextInputEditText ETUsernameEmail, ETPassword;
-    MaterialButton logInButton;
+    AppCompatButton logInButton;
     DatabaseReference mDatabase;
+    TextView createAccount, forgot_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class LogInOrganizer extends AppCompatActivity {
         ETUsernameEmail = findViewById(R.id.ETUsernameEmail);
         ETPassword = findViewById(R.id.ETPassword);
         logInButton = findViewById(R.id.logInButton);
+        createAccount = findViewById(R.id.createAccount);
+        forgot_password = findViewById(R.id.forgot_password);
         mDatabase = FirebaseDatabase.getInstance().getReference("Organizer");
 
         logInButton.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +55,15 @@ public class LogInOrganizer extends AppCompatActivity {
                 }
 
                 logInOrganizer(usernameEmail,password);
+            }
+        });
+
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogInOrganizer.this, SignUpOrganizer.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
