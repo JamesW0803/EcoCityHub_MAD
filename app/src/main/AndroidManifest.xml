@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,17 +15,29 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MADAssignment"
+        android:theme="@style/Theme.Ecocity"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
-            android:name=".LogInOrganizer"
+            android:name=".VolunteerActivityPost"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpOrganizer"
+            android:exported="false" />
+        <activity
+            android:name=".OrganizerProfile"
             android:exported="false" />
         <activity
             android:name=".OrganizerMainPage"
             android:exported="false" />
         <activity
-            android:name=".SignUpOrganizer"
+            android:name=".OrganizerDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".LogInOrganizer"
+            android:exported="false" />
+        <activity
+            android:name=".EditOrganizerProfile"
             android:exported="false" />
         <activity
             android:name=".EditActivity"
@@ -37,19 +49,43 @@
             android:name=".ApplicantsList"
             android:exported="false" />
         <activity
-            android:name=".VolunteerActivityPost"
+            android:name=".Update_ForgetPassword"
             android:exported="false" />
         <activity
-            android:name=".OrganizerDashboard"
-            android:exported="false" />
+            android:name=".forgetPassword"
+            android:exported="true" />
         <activity
-            android:name=".EditOrganizerProfile"
-            android:exported="false" />
+            android:name=".AboutUs"
+            android:exported="true" />
         <activity
-            android:name=".OrganizerProfile"
-            android:exported="false" />
+            android:name=".User_login"
+            android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Register"
+            android:exported="true" />
+        <activity
+            android:name=".Rating"
+            android:exported="true" />
+        <activity
+            android:name=".ReportProb"
+            android:exported="true" />
+        <activity
+            android:name=".Feedback"
+            android:exported="true" />
+        <activity
+            android:name=".AccPrivacy"
+            android:exported="true" />
+        <activity
+            android:name=".ChangePassword"
+            android:exported="true" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="true" />
+        <activity
+            android:name=".DefaultPic"
+            android:exported="true" />
+        <activity
+            android:name=".UserProfileMain"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +93,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <provider
             android:authorities="${applicationId}.provider"
             android:name="androidx.core.content.FileProvider"
@@ -67,6 +103,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

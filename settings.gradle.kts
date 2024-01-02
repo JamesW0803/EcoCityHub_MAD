@@ -12,11 +12,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter()
         maven(url = "https://jitpack.io")
+        jcenter()
     }
 }
 
-rootProject.name = "MADAssignment"
+rootProject.name = "Ecocity"
 include(":app")
  

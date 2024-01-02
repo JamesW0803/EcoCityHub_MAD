@@ -12,7 +12,7 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ecocity_hub"/>
+        android:src="@drawable/ecocity_hub_removebg_preview"/>
 
     <TextView
         android:id="@+id/login_text1"
@@ -45,7 +45,7 @@
         android:layout_marginTop="0dp"
         android:text="FOR POSITIVE CHANGE PLATFORM"
         android:textSize="15dp" />
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

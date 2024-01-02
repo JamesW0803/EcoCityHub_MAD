@@ -33,7 +33,7 @@
             android:layout_marginTop="20dp"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/IVLogOut"
-            android:src="@drawable/ecocity_hub" />
+            android:src="@drawable/ecocity_hub_removebg_preview" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -9,66 +9,66 @@
     android:background="@color/dark_green">
 
     <com.google.android.material.button.MaterialButton
-            android:id="@+id/BTActivityBack"
-            android:layout_width="wrap_content"
+        android:id="@+id/BTActivityBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@android:color/transparent"
+        app:icon="@drawable/baseline_arrow_back_ios_24"
+        app:iconSize="30dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/TVActivityTitle"
+        android:layout_below="@+id/BTActivityBack">
+
+        <TextView
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@android:color/transparent"
-            app:icon="@drawable/ic_arrow"
-            app:iconSize="30dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/TVActivityTitle"
-            android:layout_below="@+id/BTActivityBack">
-
-            <TextView
-                android:layout_width="275dp"
-                android:layout_height="wrap_content"
-                android:text="Animal Shelter Volunteer"
-                android:textSize="35dp"
-                android:textColor="@color/white"
-                android:layout_below="@+id/BTActivityBack"
-                android:layout_marginLeft="35dp"
-                android:textStyle="bold"
-                android:id="@+id/TVActivityName"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_editactivity"
-                app:iconSize="40dp"
-                android:background="@android:color/transparent"
-                android:id="@+id/BTEditActivity" />
-        </LinearLayout>
-
-    <TextView
-            android:layout_width="300dp"
-            android:layout_height="75dp"
-            android:layout_below="@+id/TVActivityTitle"
+            android:text="Animal Shelter Volunteer"
+            android:textSize="35dp"
+            android:textColor="@color/white"
+            android:layout_below="@+id/BTActivityBack"
             android:layout_marginLeft="35dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/lorem_ipsum"
-            android:textSize="15dp"
-            android:textColor="@color/white"
-            android:id="@+id/TVActivityDesc"/>
+            android:textStyle="bold"
+            android:id="@+id/TVActivityName"/>
 
-    <TextView
+        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="105 points"
-            android:layout_below="@+id/TVActivityDesc"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:id="@+id/TVPoints" />
+            app:icon="@drawable/ic_editactivity"
+            app:iconSize="40dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/BTEditActivity" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/TVActivityTitle"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/lorem_ipsum"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:id="@+id/TVActivityDesc"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="105 points"
+        android:layout_below="@+id/TVActivityDesc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/TVPoints" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_calendar"
+                        android:src="@drawable/ic_dob"
                         app:tint="@color/purple"
                         android:tintMode="multiply"
                         android:id="@+id/IVCalendar" />

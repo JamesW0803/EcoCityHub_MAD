@@ -25,7 +25,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@android:color/transparent"
-                app:icon="@drawable/ic_arrow"
+                app:icon="@drawable/baseline_arrow_back_ios_24"
                 app:iconSize="30dp"
                 app:iconTint="@color/black" />
 
@@ -53,80 +53,80 @@
                     android:textSize="20dp"
                     android:textColor="@color/purple"
                     android:layout_marginTop="15dp"
-                    android:textStyle="bold" 
+                    android:textStyle="bold"
                     android:textAlignment="center"
                     android:id="@+id/TVActivityName"/>
-                
+
             </LinearLayout>
-            
+
         </RelativeLayout>
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age Group"
+                android:textColor="@color/purple"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15-65 years old"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/TVAgeGroup" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Requirements"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:textColor="@color/purple"
+                android:layout_marginLeft="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sed turpis tincidunt id aliquet risus feugiat in"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/TVRequirements" />
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="15dp">
+                android:overScrollMode="always"
+                android:scrollbars="vertical" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Age Group"
-                    android:textColor="@color/purple"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="30dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15-65 years old"
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/TVAgeGroup" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Requirements"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/purple"
-                    android:layout_marginLeft="30dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sed turpis tincidunt id aliquet risus feugiat in"
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/TVRequirements" />
-
-                <ScrollView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:overScrollMode="always"
-                    android:scrollbars="vertical" >
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="50dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:id="@+id/applicant_recycler_list" >
+                    </androidx.recyclerview.widget.RecyclerView>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="30dp"
-                            android:id="@+id/applicant_recycler_list" >
-                        </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
 
-                    </LinearLayout>
+            </ScrollView>
 
-                </ScrollView>
-
-            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
